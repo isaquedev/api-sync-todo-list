@@ -1,8 +1,8 @@
 import { User } from "@prisma/client"
 import { Validation } from "@validations/validator"
 
-interface UserSignInFields extends Omit<User, "id" | "name" | "createdAt" | "updatedAt"> {}
-interface UserSignUpFields extends Omit<User, "id" | "createdAt" | "updatedAt"> {}
+interface UserSignInFields extends Omit<User, "id" | "name" | "createdAt" | "updatedAt" | "recoveryToken"> {}
+interface UserSignUpFields extends Omit<User, "id" | "createdAt" | "updatedAt" | "recoveryToken"> {}
 
 export type UserSignInValidation = Validation<UserSignInFields>
 export type UserSignUpValidation = Validation<UserSignUpFields>

@@ -8,12 +8,21 @@ type UserCreate = {
   email: string;
   name: string;
   password: string;
+  recoveryToken?: string;
+}
+
+type UserUpdate = {
+  email: string;
+  name: string;
+  password?: string;
+  recoveryToken?: string | null;
 }
 
 export interface  UserDAO {
   findOne(id: string): Promise<UserWithoutPassword|null>
   findByEmail(email: string, withPassword?: boolean): Promise<User|UserWithoutPassword|null>
   create(data: UserCreate): Promise<UserWithoutPassword>
+  update(id: string, data: UserUpdate): Promise<UserWithoutPassword>
 }
 
 function exclude<User, Key extends keyof User>(
@@ -58,9 +67,19 @@ export default (client: PrismaClient): UserDAO => {
     return exclude(user, ["password"])!
   }
 
+  async function update(id: string, data: UserUpdate) {
+    const user = await client.user.update({
+      where: { id },
+      data
+    })
+
+    return exclude(user, ["password"])!
+  }
+
   return Object.freeze({
     findOne,
     findByEmail,
-    create
+    create,
+    update
   })
 }

@@ -11,6 +11,8 @@ export interface AuthService {
   hashPassword: (password: string) => Promise<string>
   comparePasswords: (password: string, hashedPassword: string) => Promise<boolean>
   verifyToken: (token: string) => Promise<string>
+  createResetToken: (id: string) => Promise<string>
+  verifyResetToken: (token: string) => Promise<string>
 }
 
 interface AuthServiceDependencies {
@@ -19,11 +21,11 @@ interface AuthServiceDependencies {
 
 export default ({ encryptService }: AuthServiceDependencies): AuthService => {
   async function login (id: string, email: string) {
-    return jwt.sign({ userId: id, email }, process.env.JWT_SECRET)
+    return jwt.sign({ userId: id, email }, process.env.JWT_AUTH_SECRET)
   }
 
   async function verifyToken (token: string) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as DecodedToken
+    const decoded = jwt.verify(token, process.env.JWT_AUTH_SECRET) as DecodedToken
     return decoded.userId
   }
 
@@ -35,10 +37,21 @@ export default ({ encryptService }: AuthServiceDependencies): AuthService => {
     return encryptService.compare(password, hashedPassword)
   }
 
+  async function createResetToken (id: string) {
+    return jwt.sign({ userId: id }, process.env.JWT_RESET_SECRET, { expiresIn: '30m' })
+  }
+
+  async function verifyResetToken (token: string) {
+    const decoded = jwt.verify(token, process.env.JWT_RESET_SECRET) as DecodedToken
+    return decoded.userId
+  }
+
   return Object.freeze({
     login,
     verifyToken,
     hashPassword,
-    comparePasswords
+    comparePasswords,
+    createResetToken,
+    verifyResetToken
   })
 }
