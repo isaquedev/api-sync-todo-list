@@ -1,36 +1,36 @@
 import { HttpResponse } from "@adapters/routeAdapter";
-import { EntryDAO } from "@dataAccess/makeEntryDAO";
+import { TodoDAO } from "@dataAccess/makeTodoDAO";
 import { HttpUserRequest } from "@middlewares/makeIsAuthenticated";
 
-interface MakeEntryListDependecies {
-  entryDAO: EntryDAO
+interface MakeTodoListDependecies {
+  todoDAO: TodoDAO
 }
 
-interface MakeEntryListQuery {
+interface MakeTodoListQuery {
   page: string
   perPage: string
 }
 
-export default ({ entryDAO }: MakeEntryListDependecies) => {
-  return async function getEntryList(httpRequest: HttpUserRequest): Promise<HttpResponse> {
+export default ({ todoDAO }: MakeTodoListDependecies) => {
+  return async function getTodoList(httpRequest: HttpUserRequest): Promise<HttpResponse> {
     try {
       const userId = httpRequest.userId!;
-      const { page, perPage } = httpRequest.query as MakeEntryListQuery;
+      const { page, perPage } = httpRequest.query as MakeTodoListQuery;
 
       const pagination = {
         page: Number(page),
         perPage: Number(perPage)
       }
 
-      const entries = await entryDAO.findAllPaginated(userId, pagination);
-      const entriesLenght = await entryDAO.count(userId);
+      const todos = await todoDAO.findAll(userId, pagination);
+      const todosLenght = await todoDAO.count(userId);
 
-      const nbPages = Math.ceil(entriesLenght / pagination.perPage);
+      const nbPages = Math.ceil(todosLenght / pagination.perPage);
       
       return {
         statusCode: 200,
         body: {
-          data: entries,
+          data: todos,
           pagination: {
             page: pagination.page,
             perPage: pagination.perPage,
