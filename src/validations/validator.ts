@@ -71,7 +71,7 @@ export default <T>(data: T, keys: Validation<T>): Errors | undefined => {
       }
 
       //Validate min data length
-      if (min && required) {
+      if (min) {
         if (typeof _data === 'string' && !minLengthValidation(String(_data), min)) {
           errors[key].push(`${name} must be at least ${min} characters long`);
         }
@@ -81,7 +81,7 @@ export default <T>(data: T, keys: Validation<T>): Errors | undefined => {
       }
 
       //Validate max data length
-      if (max && required) {
+      if (max) {
         if (typeof _data === 'string' && !maxLengthValidation(String(_data), max)) {
           errors[key].push(`${name} must be at most ${max} characters long`);
         }
