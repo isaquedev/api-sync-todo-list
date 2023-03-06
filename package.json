@@ -7,7 +7,7 @@
     "watch": "npx tsc --watch"
   },
   "dependencies": {
-    "@prisma/client": "^4.9.0",
+    "@prisma/client": "^4.11.0",
     "@types/cors": "^2.8.13",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
@@ -16,7 +16,7 @@
     "jsonwebtoken": "^9.0.0",
     "module-alias": "^2.2.2",
     "nodemailer": "^6.9.1",
-    "prisma": "^4.9.0"
+    "prisma": "^4.11.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
