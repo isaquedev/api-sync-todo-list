@@ -28,6 +28,7 @@ model Todo {
   date        DateTime
   user        User?         @relation(fields: [userId], references: [id])
   userId      String
+  priority    Int?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   tags TodoTag[]
