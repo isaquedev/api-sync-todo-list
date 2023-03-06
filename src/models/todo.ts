@@ -12,7 +12,7 @@ interface ITodoModel {
 export const todoValidations: ITodoModel = {
   changeValidation: {
     title: { name: "Title", type: "string", required: true, min: 3, max: 255 },
-    date: { name: "Date", type: "date", required: true },
+    date: { name: "Date", type: "date" },
     isDone: { name: "Done", type: "boolean", required: true },
     priority: { name: "Priority", type: "number", min: 1, max: 3 },
   }
