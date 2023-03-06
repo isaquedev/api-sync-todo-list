@@ -1,12 +1,12 @@
 import prisma from "../database";
 
-import makeEntryDAO from "./makeEntryDAO";
+import makeTodoDAO from "./makeTodoDAO";
 import makeUserDAO from "./makeUserDAO";
 
-const entryDAO = makeEntryDAO(prisma)
+const todoDAO = makeTodoDAO(prisma)
 const userDAO = makeUserDAO(prisma)
 
 export {
-  entryDAO,
+  todoDAO,
   userDAO
 }
