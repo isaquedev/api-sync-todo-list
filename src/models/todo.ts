@@ -9,7 +9,7 @@ interface ITodoModel {
   changeValidation: TodoChangeValidation
 }
 
-export const entryValidations: ITodoModel = {
+export const todoValidations: ITodoModel = {
   changeValidation: {
     title: { name: "Title", type: "string", required: true, min: 3, max: 255 },
     date: { name: "Date", type: "date", required: true },
