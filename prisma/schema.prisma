@@ -10,22 +10,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Entry {
-  id        String  @id  @default(uuid())
-  name      String  @db.VarChar(255)
-  user      User?   @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String   @db.VarChar(255)
+  password      String   @db.VarChar(255)
+  todos         Todo[]
+  recoveryToken String?  @db.VarChar(255)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
-model User {
-  id    String  @id  @default(uuid())
-  email String  @unique
-  name  String  @db.VarChar(255)
-  password String @db.VarChar(255)
-  entries Entry[]
-  recoveryToken String? @db.VarChar(255)
+model Todo {
+  id          String        @id @default(uuid())
+  title       String        @db.VarChar(255)
+  isDone      Boolean       @default(false)
+  date        DateTime
+  user        User?         @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  tags TodoTag[]
+}
+
+model Tag {
+  id          String        @id @default(uuid())
+  name        String        @db.VarChar(255)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  todos TodoTag[]
+}
+
+model TodoTag {
+  id        String   @id @default(uuid())
+  todo      Todo     @relation(fields: [todoId], references: [id])
+  todoId    String
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
